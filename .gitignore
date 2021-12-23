@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+/Cache.txt
+/Practice.py
+/First.py
+/First1.ui
+/First1.py
+
+
