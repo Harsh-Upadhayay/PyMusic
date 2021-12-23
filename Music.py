@@ -120,6 +120,7 @@ class Music:
                 input("  (1 : pause/play)\n  (2 : loopSong)\n  "
                       "(3 : loopPlaylist)\n  (4 : loopAB)\n  "
                       "(5 : seek)\n  (6 : stop)\n"))
+            #self.MusicControl = Id
 
             if 1 == self.MusicControl:
                 self.__pausePlay()
