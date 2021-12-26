@@ -8,7 +8,7 @@ import fnmatch
 import os
 import time
 
-from threading import Thread
+from threading import Thread, Timer
 import multiprocessing as mp
 import psutil
 
@@ -19,12 +19,13 @@ class Music:
         self.Tracks = []
         self.Folders = []
         self.songsList = {}
-        self.__time = 0
+        self.time = 0
         self.MusicControl = None
         self.SongID = None
         self.loopID = None
         self.songName = None
         self.songSegment = None
+        self.TimeID = None
 
         self.songLoop = False
         self.playlistLoopFlag = False
@@ -59,13 +60,12 @@ class Music:
             name, path = line.split(":*:")
             self.songsList[name] = path[:-1]
 
-    def __timer(self):
+    def __timer(self, initial_Duration = 0):
+        self.time = initial_Duration
         while self.SongID != psutil.STATUS_ZOMBIE:
-            mins, secs = divmod(self.__time, 60)
-            timer = '{:02d}:{:02d}'.format(mins, secs)
-            print(timer, end="\r")
-            time.sleep(1)
-            self.__time += 1
+            time.sleep(0.2)
+            self.time += 0.2
+            print(self.time)
 
     def selectSong(self, SONG = ""):
         self.songName = self.songsList[SONG]
@@ -74,28 +74,38 @@ class Music:
     def play(self):
         if self.SongID:
             psutil.Process(self.SongID).kill()
+            psutil.Process(self.TimeID).kill()
+
 
         self.songSegment = sound = AudioSegment.from_file(self.songName, format="mp3")
         p1 = mp.Process(target=play, args=(sound,))
+        t1 = mp.Process(target=self.__timer, args=(0,))
 
         p1.daemon = True
+        t1.daemon = True
+        t1.start()
         p1.start()
+        self.TimeID = t1.pid
         self.SongID = p1.pid
 
 
     def pausePlay(self):
-        process = psutil.Process(self.SongID)
-        if process.status() == psutil.STATUS_SLEEPING:
+        songProcess = psutil.Process(self.SongID)
+        timerProcess = psutil.Process(self.TimeID)
+
+        if songProcess.status() == psutil.STATUS_SLEEPING:
             """
             Halt the execution of play
             """
-            process.suspend()
+            songProcess.suspend()
+            timerProcess.suspend()
 
-        elif process.status() == psutil.STATUS_STOPPED:
+        elif songProcess.status() == psutil.STATUS_STOPPED:
             """
             Resume the execution of play
             """
-            process.resume()
+            songProcess.resume()
+            timerProcess.resume()
 
     def menu(self):
         while self.SongID != psutil.STATUS_ZOMBIE:
@@ -141,12 +151,15 @@ class Music:
         sound = self.songSegment[seekValue * 1000:]
 
         p1 = mp.Process(target=play, args=(sound,))
+        t1 = mp.Process(target=self.Timer, args=(seekValue,))
+
         p1.daemon = True
         p1.start()
         self.SongID = p1.pid
 
     def stop(self):
         psutil.Process(self.SongID).kill()
+        psutil.Process(self.TimeID).kill()
 
         self.SongID = None
         self.songName = None

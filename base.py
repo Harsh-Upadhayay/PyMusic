@@ -36,6 +36,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -52,6 +53,7 @@ class Ui_MainWindow(object):
 
     def selectionChanged(self):
         self.music.selectSong(self.listWidget.currentItem().text())
+        
 
 
 
