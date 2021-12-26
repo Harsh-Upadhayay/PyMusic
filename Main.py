@@ -25,11 +25,16 @@ class Ui_MainWindow(object):
         self.progressBar.setGeometry(QtCore.QRect(80, 470, 641, 13))
         self.progressBar.setProperty("value", 24)
         self.progressBar.setObjectName("progressBar")
-        self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(89, 60, 601, 321))
-        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame.setObjectName("frame")
+        #self.frame = QtWidgets.QFrame(self.centralwidget)
+        #self.frame.setGeometry(QtCore.QRect(89, 60, 601, 321))
+        #self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        #self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        #self.frame.setObjectName("frame")
+
+        self.label = QtWidgets.QLabel(MainWindow)
+        self.label.setGeometry(QtCore.QRect(150, 160, 72, 300))
+        self.label.setObjectName("label")
+
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(350, 560, 96, 36))
         self.pushButton.setObjectName("pushButton")
@@ -62,9 +67,10 @@ class Ui_MainWindow(object):
 
         ######
         self.pushButton.clicked.connect(lambda : self.Play())
-        pixmap = QtGui.QPixmap("/Images/Rohit_-Sharma-6.jpg")
+        self.pixmap = QtGui.QPixmap("Images/Rohit-Sharma-6.jpg")
         #label.setPixmap(pixmap)
-        self.frame.setPixmap(pixmap)
+        self.label.setPixmap(self.pixmap)
+        #self.label.resize(200,200)
 
     def Play(self):
         #print("Yes")

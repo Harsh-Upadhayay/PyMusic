@@ -70,18 +70,20 @@ class Music:
 
 
 
-    def selectSong(self):
+    def selectSong(self,Id):
         val = 1
+        """
         print("Select the song among the songs from the List below ")
         print()
         for song in self.songsList.keys():
             print(val , ": ", song)
             val += 1
         Num = int(input("\nEnter the Song Number to play : "))
-        print()
+        print()"""
         songsName = list(self.songsList)
+        print(songsName)
         
-        self.songName = self.songsList[songsName[Num-1]]
+        self.songName = self.songsList[songsName[Id]]
         self.play()
         
     
@@ -94,7 +96,7 @@ class Music:
         self.SongID = p1.pid    
         
         if False == self.songLoop:
-            self.menu()
+            self.menu(self.MusicControl)
  
 
     def __pausePlay(self):
@@ -112,15 +114,15 @@ class Music:
             process.resume()
 
 
-    def menu(self):
+    def menu(self,Id):
         while self.SongID != psutil.STATUS_ZOMBIE:
             #self.__timer()
-            print("Enter command : ")
-            self.MusicControl = int(
-                input("  (1 : pause/play)\n  (2 : loopSong)\n  "
-                      "(3 : loopPlaylist)\n  (4 : loopAB)\n  "
-                      "(5 : seek)\n  (6 : stop)\n"))
-            #self.MusicControl = Id
+            #print("Enter command : ")
+            #self.MusicControl = int(
+            #    input("  (1 : pause/play)\n  (2 : loopSong)\n  "
+            #          "(3 : loopPlaylist)\n  (4 : loopAB)\n  "
+            #          "(5 : seek)\n  (6 : stop)\n"))
+            self.MusicControl = Id
 
             if 1 == self.MusicControl:
                 self.__pausePlay()
