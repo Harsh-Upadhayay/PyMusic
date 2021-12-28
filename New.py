@@ -9,13 +9,18 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import Music
+from NewMusic import Music
+
+
+class Song_Menu(QtWidgets.QListWidget):
+    def __init__(self) -> None:
+        super(Song_Menu,self).__init__()
+
 
 
 class Ui_MainWindow(object):
     def __init__(self) -> None:
-        super(Ui_MainWindow, self).__init__()
-        self.music = Music.Music()
+        super(Ui_MainWindow,self).__init__()
         self.Len = len(self.music.songsList)
         self.current = 0
         self.prev = -1
@@ -59,8 +64,9 @@ class Ui_MainWindow(object):
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 898, 28))
         self.menubar.setObjectName("menubar")
+        #self.menubar.setCornerWidget(QtCore.center)
 
-        ## MenuLAbum
+        ## MenuAlbum
         self.menuAlbum = QtWidgets.QMenu(self.menubar)
         self.menuAlbum.setObjectName("menuAlbum")
 
@@ -71,6 +77,10 @@ class Ui_MainWindow(object):
         ## Menu Playlist
         self.menuPlaylist = QtWidgets.QMenu(self.menubar)
         self.menuPlaylist.setObjectName("menuPlaylist")
+
+        ## Menu All songs
+        self.menuSongs = QtWidgets.QMenu(self.menubar)
+        self.menuSongs.setObjectName("menuSongs")
 
         MainWindow.setMenuBar(self.menubar)
 
@@ -84,6 +94,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuAlbum.menuAction())
         self.menubar.addAction(self.menuFavourites.menuAction())
         self.menubar.addAction(self.menuPlaylist.menuAction())
+        self.menubar.addAction(self.menuSongs.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -151,9 +162,13 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "Play/Pause"))
         self.pushButton_3.setText(_translate("MainWindow", "Next"))
         self.label.setText(_translate("MainWindow", "TextLabel"))
+        self.progressBar.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        #self.label.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        #self.label.setSizePolicy(QtWidgets.QSizePolicy.expandingDirections)
         self.menuAlbum.setTitle(_translate("MainWindow", "Album"))
         self.menuFavourites.setTitle(_translate("MainWindow", "Favourites"))
         self.menuPlaylist.setTitle(_translate("MainWindow", "Playlist"))
+        self.menuSongs.setTitle(_translate("MainWindow", "Songs"))
 
 
 if __name__ == "__main__":
