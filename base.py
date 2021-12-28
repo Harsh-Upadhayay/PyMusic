@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QSizePolicy
 
 from internalDriver import Music
 from internalDriver import Music
@@ -36,6 +37,9 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+        self.mediaSlider = QtWidgets.QSlider(self.centralwidget)
+        self.mediaSlider.setRange(0, )
+
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -44,6 +48,7 @@ class Ui_MainWindow(object):
         self.listWidget.addItems(self.music.songsList.keys())
         self.listWidget.itemSelectionChanged.connect(self.selectionChanged)
 
+        self.pushButton.setSizePolicy(QSizePolicy.Policy.Expanding,QSizePolicy.Policy.Expanding)
         self.pushButton.clicked.connect(self.music.pausePlay)
 
     def retranslateUi(self, MainWindow):
