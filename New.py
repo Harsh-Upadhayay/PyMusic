@@ -18,10 +18,10 @@ class Song_Menu(QtWidgets.QListWidget):
         super(Song_Menu,self).__init__()
 
 
+
 class Ui_MainWindow(object):
     def __init__(self) -> None:
         super(Ui_MainWindow,self).__init__()
-        self.music = Music()
         self.Len = len(self.music.songsList)
         self.current = 0
         self.prev = -1
@@ -58,7 +58,6 @@ class Ui_MainWindow(object):
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(150, 89, 591, 341))
         self.label.setObjectName("label")
-
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -102,33 +101,36 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         ###############
+
         self.pushButton_2.clicked.connect(lambda : self.Play())
         self.pushButton.clicked.connect(lambda : self.Prev())
         self.pushButton_3.clicked.connect(lambda : self.Next())
         #print(random.choice(os.listdir("Images/")))
         self.pixmap = QtGui.QPixmap("Images/" + random.choice(os.listdir("Images/")))
         #self.pixmap = QtGui.QPixmap("Images/Rohit-Sharma-6.jpg")
+        self.pushButton_2.clicked.connect(lambda: self.Play())
+        self.pushButton.clicked.connect(lambda: self.Prev())
+        self.pushButton_3.clicked.connect(lambda: self.Next())
+        self.pixmap = QtGui.QPixmap("Images/Rohit-Sharma-6.jpg")
         self.label.setPixmap(self.pixmap)
-        self.label.resize(self.label.width(),self.label.height())
-
-
+        self.label.resize(self.label.width(), self.label.height())
 
     def Play(self):
-        #print("Yes")
+        # print("Yes")
         self.music.selectSong(self.current)
         self.music.menu(1)
 
     def Next(self):
-        #self.music.menu(6)
+        # self.music.menu(6)
         self.prev += 1
         self.current += 1
         self.next += 1
 
-        if(self.prev == self.Len):
+        if (self.prev == self.Len):
             self.prev = 0
-        elif(self.next == self.Len):
+        elif (self.next == self.Len):
             self.next = 0
-        elif(self.current == self.Len):
+        elif (self.current == self.Len):
             self.current = 0
 
         self.music.selectSong(self.current)
@@ -141,28 +143,26 @@ class Ui_MainWindow(object):
             self.prev = -1"""
 
     def Prev(self):
-        #self.music.menu(6)
+        # self.music.menu(6)
         self.prev -= 1
-        self.current -=1 
+        self.current -= 1
         self.next -= 1
 
-        if(self.prev == -(self.Len + 1)):
+        if (self.prev == -(self.Len + 1)):
             self.prev = -1
-        elif(self.current == -(self.Len + 1)):
+        elif (self.current == -(self.Len + 1)):
             self.current = -1
-        elif(self.next == -(self.Len + 1)):
+        elif (self.next == -(self.Len + 1)):
             self.next = -1
 
         self.music.selectSong(self.current)
         self.music.menu(1)
-        
+
         """
         if(self.prev == -(self.Len + 1)):
             self.prev = -1
         if()"""
 
-
-    
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -181,6 +181,7 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
