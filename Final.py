@@ -14,6 +14,7 @@ import os,random
 import eyed3 as E
 import io
 from PIL import Image
+import stagger
 
 
 class Song:
@@ -130,10 +131,7 @@ class Ui_MainWindow(object):
 
     def Select(self):
         self.music.selectSong(self.listWidget.currentItem().text())
-        File = E.load(self.music.songsList[self.listWidget.currentItem().text()])
-        print(File.tag.artist)
-        self.pixmap = QtGui.QPixmap(File.tag.images)
-        #self.pixmap = QtGui.QPixmap("Images/" + random.choice(os.listdir("Images/")))
+        self.pixmap = QtGui.QPixmap("Images/" + random.choice(os.listdir("Images/")))
         self.label.setPixmap(self.pixmap)
         self.label.resize(self.label.width(),self.label.height())
         

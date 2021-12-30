@@ -11,6 +11,11 @@ import time
 from threading import Thread, Timer
 import multiprocessing as mp
 import psutil
+from PIL import Image
+import stagger
+import io
+
+from stagger.errors import NoTagError
 
 
 class Music:
@@ -24,6 +29,7 @@ class Music:
         self.SongID = None
         self.loopID = None
         self.songName = None
+        self.image = None
         self.songSegment = None
         self.TimeID = None
 
@@ -38,6 +44,7 @@ class Music:
 
         try:
             cacheFile = open("Cache.txt", 'x')
+            #ImgFile = open("Image.txt",'x')
         except:
             return
 
@@ -46,10 +53,40 @@ class Music:
                 self.Folders.append(os.path.join(root))
                 self.Tracks.append(os.path.join(filename))
                 Source = os.path.join(root, filename)
-
+                
+                ## 
+                print(Source)
+                File = stagger.read_tag(Source)
+                try:
+                    Data = File[stagger.id3.APIC][0].data
+                    try:
+                        im = io.BytesIO(Data)
+                        imageFile = Image.open(im)
+                        Name = "Images/" + filename + ".jpg"
+                        print(filename,Name)
+                        imageFile.save(Name)
+                        cacheFile.write(filename + ":*:")
+                        cacheFile.write(Source)
+                        ##
+                        cacheFile.write(":*:")
+                        cacheFile.write(Name)
+                        cacheFile.write('\n')
+                    except NoTagError:
+                        continue
+                except:
+                    continue
+                """
+                im = io.BytesIO(Data)
+                imageFile = Image.open(im)
+                Name = "Images/" + filename + ".jpg"
+                print(filename,Name)
+                imageFile.save(Name)
                 cacheFile.write(filename + ":*:")
                 cacheFile.write(Source)
-                cacheFile.write('\n')
+                ##
+                cacheFile.write(":*:")
+                cacheFile.write(Name)
+                cacheFile.write('\n')"""
         cacheFile.close()
 
     def __setList(self):
@@ -57,8 +94,8 @@ class Music:
         cacheFile = open("Cache.txt", 'r')
 
         for line in cacheFile:
-            name, path = line.split(":*:")
-            self.songsList[name] = path[:-1]
+            name, path, Img = line.split(":*:")
+            self.songsList[name] = [path[:-1], Img[:-1]]
 
     def __timer(self, initial_Duration = 0):
         self.time = initial_Duration
@@ -68,7 +105,8 @@ class Music:
             print(self.time)
 
     def selectSong(self, SONG = ""):
-        self.songName = self.songsList[SONG]
+        self.songName = self.songsList[SONG][0]
+        self.image = self.songsList[SONG][1]
         self.play()
 
     def play(self):
