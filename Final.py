@@ -10,6 +10,11 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from NewMusic import Music
+import os,random
+import eyed3 as E
+import io
+from PIL import Image
+import stagger
 
 
 class Song:
@@ -126,6 +131,9 @@ class Ui_MainWindow(object):
 
     def Select(self):
         self.music.selectSong(self.listWidget.currentItem().text())
+        self.pixmap = QtGui.QPixmap("Images/" + random.choice(os.listdir("Images/")))
+        self.label.setPixmap(self.pixmap)
+        self.label.resize(self.label.width(),self.label.height())
         
 
 if __name__ == "__main__":

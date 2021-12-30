@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from NewMusic import Music
+import os,random
 
 
 class Song_Menu(QtWidgets.QListWidget):
@@ -100,6 +101,13 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         ###############
+
+        self.pushButton_2.clicked.connect(lambda : self.Play())
+        self.pushButton.clicked.connect(lambda : self.Prev())
+        self.pushButton_3.clicked.connect(lambda : self.Next())
+        #print(random.choice(os.listdir("Images/")))
+        self.pixmap = QtGui.QPixmap("Images/" + random.choice(os.listdir("Images/")))
+        #self.pixmap = QtGui.QPixmap("Images/Rohit-Sharma-6.jpg")
         self.pushButton_2.clicked.connect(lambda: self.Play())
         self.pushButton.clicked.connect(lambda: self.Prev())
         self.pushButton_3.clicked.connect(lambda: self.Next())
