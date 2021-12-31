@@ -131,10 +131,19 @@ class Ui_MainWindow(object):
 
     def Select(self):
         self.music.selectSong(self.listWidget.currentItem().text())
-        self.pixmap = QtGui.QPixmap("Images/" + random.choice(os.listdir("Images/")))
-        self.label.setPixmap(self.pixmap)
-        self.label.resize(self.label.width(),self.label.height())
-        
+        self.pixmap = QtGui.QPixmap(self.music.image)
+        self.pixmap.width = self.label.width()
+        self.pixmap.height = self.label.height()
+        self.label.setPixmap(self.pixmap.scaled(self.label.size()))
+        #self.label.resize(self.pixmap.width(),self.pixmap.height())
+        ##
+        try:
+            File = E.load(self.music.songsList[self.listWidget.currentItem().text()][0])
+            #Duration = {":.2f"}.format((File.info.time_secs / 60))
+            self.label_2.setText("Album : " + File.tag.album + "\n" + "Artist : " + File.tag.artist + "\n" + "Duration :  " + "None")
+        except:
+            self.label_2.setText("Album :  None\nArtist : None")
+    
 
 if __name__ == "__main__":
     import sys
