@@ -138,4 +138,9 @@ dmypy.json
 
 .idea
 *.txt
-
+/temp.cpp
+/temp.py
+/temp
+/internalDriver.py
+*.ui
+/Images
