@@ -54,39 +54,29 @@ class Music:
                 self.Tracks.append(os.path.join(filename))
                 Source = os.path.join(root, filename)
                 
-                ## 
-                print(Source)
-                File = stagger.read_tag(Source)
+                
                 try:
+                    File = stagger.read_tag(Source)
                     Data = File[stagger.id3.APIC][0].data
-                    try:
-                        im = io.BytesIO(Data)
-                        imageFile = Image.open(im)
-                        Name = "Images/" + filename + ".jpg"
-                        print(filename,Name)
-                        imageFile.save(Name)
-                        cacheFile.write(filename + ":*:")
-                        cacheFile.write(Source)
-                        ##
-                        cacheFile.write(":*:")
-                        cacheFile.write(Name)
-                        cacheFile.write('\n')
-                    except NoTagError:
-                        continue
-                except:
+                    im = io.BytesIO(Data)
+                    imageFile = Image.open(im)
+                    Name = "Images/" + filename + ".jpg"
+        
+                    imageFile.save(Name)
+                    cacheFile.write(filename + ":*:")
+                    cacheFile.write(Source)
+                    ##
+                    cacheFile.write(":*:")
+                    cacheFile.write(Name)
+                    cacheFile.write('\n')
+                except :
+                    cacheFile.write(filename + ":*:")
+                    cacheFile.write(Source)
+                    cacheFile.write(":*:")
+                    cacheFile.write("Images/General.jpg")
+                    cacheFile.write('\n')
                     continue
-                """
-                im = io.BytesIO(Data)
-                imageFile = Image.open(im)
-                Name = "Images/" + filename + ".jpg"
-                print(filename,Name)
-                imageFile.save(Name)
-                cacheFile.write(filename + ":*:")
-                cacheFile.write(Source)
-                ##
-                cacheFile.write(":*:")
-                cacheFile.write(Name)
-                cacheFile.write('\n')"""
+
         cacheFile.close()
 
     def __setList(self):
@@ -95,7 +85,9 @@ class Music:
 
         for line in cacheFile:
             name, path, Img = line.split(":*:")
-            self.songsList[name] = [path[:-1], Img[:-1]]
+            self.songsList[name] = [path[:], Img[:-1]]
+            #print(self.songsList[name])
+            #print(name, path, Img)
 
     def __timer(self, initial_Duration = 0):
         self.time = initial_Duration
@@ -106,6 +98,7 @@ class Music:
 
     def selectSong(self, SONG = ""):
         self.songName = self.songsList[SONG][0]
+        #print(self.songName)
         self.image = self.songsList[SONG][1]
         self.play()
 
