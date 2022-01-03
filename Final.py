@@ -50,7 +50,7 @@ class Ui_MainWindow(object):
 
         ## Progress bar
         self.progressBar = QtWidgets.QProgressBar(self.widget)
-        self.progressBar.setGeometry(QtCore.QRect(10, 40, 991, 23))
+        self.progressBar.setGeometry(QtCore.QRect(10, 40, 991, 10))
         self.progressBar.setProperty("value", 24)
         self.progressBar.setObjectName("progressBar")
 
